@@ -1,0 +1,150 @@
+import os
+import sys
+import glob
+import yaml
+import subprocess
+import time
+import signal
+import psutil
+
+# Configuration
+ENDPOINTS_DIR = "endpoints"
+HOOKS_FILE = "hooks.yaml"
+WEBHOOK_EXECUTABLE = "C:\\Users\\melti\\go\\bin\\webhook"
+PYTHON_EXECUTABLE = "C:\\Program Files\\Python313\\python.exe"
+LAUNCHER_SCRIPT = "C:\\Users\\melti\\Desktop\\git\\api-test\\run-endpoint.py"
+WORKING_DIR = "C:\\Users\\melti\\Desktop\\git\\api-test"
+
+def get_endpoint_files():
+    """Get all files in the endpoints directory."""
+    return glob.glob(os.path.join(ENDPOINTS_DIR, "*.*"))
+
+def generate_hook_config(endpoint_files):
+    """Generate the hooks.yaml configuration based on the endpoint files."""
+    hooks = []
+    
+    for endpoint_file in endpoint_files:
+        # Get just the filename (without path)
+        filename = os.path.basename(endpoint_file)
+        
+        # Get the filename without extension for the hook ID
+        hook_id = os.path.splitext(filename)[0]
+        
+        # Create the hook configuration
+        hook = {
+            "id": hook_id,
+            "execute-command": PYTHON_EXECUTABLE,
+            "pass-arguments-to-command": [
+                {
+                    "source": "string",
+                    "name": LAUNCHER_SCRIPT
+                },
+                {
+                    "source": "string",
+                    "name": filename
+                }
+            ],
+            "pass-file-to-command": [
+                {
+                    "source": "raw-request-body",
+                    "envname": "WEBHOOK_PAYLOAD",
+                    "base64decode": False
+                }
+            ],
+            "command-working-directory": WORKING_DIR,
+            "include-command-output-in-response": True
+        }
+        
+        hooks.append(hook)
+    
+    return hooks
+
+def write_hooks_file(hooks):
+    """Write the hooks configuration to the YAML file."""
+    with open(HOOKS_FILE, 'w') as f:
+        yaml.dump(hooks, f, default_flow_style=False)
+    print(f"Generated {HOOKS_FILE} with {len(hooks)} hooks")
+
+def kill_webhook_processes():
+    """Kill any existing webhook processes."""
+    for proc in psutil.process_iter(['pid', 'name']):
+        if 'webhook' in proc.info['name'].lower():
+            try:
+                process = psutil.Process(proc.info['pid'])
+                process.terminate()
+                print(f"Terminated webhook process with PID {proc.info['pid']}")
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
+
+def start_webhook_server():
+    """Start the webhook server with the generated hooks file."""
+    try:
+        # Kill any existing webhook processes
+        kill_webhook_processes()
+        time.sleep(1)  # Give processes time to terminate
+        
+        # Start the webhook server
+        cmd = [WEBHOOK_EXECUTABLE, "-hooks", HOOKS_FILE, "-verbose"]
+        print(f"Starting webhook server with command: {' '.join(cmd)}")
+        
+        # Use Popen to start the process and redirect output
+        with open("webhook.log", "w") as log_file:
+            process = subprocess.Popen(
+                cmd, 
+                stdout=log_file, 
+                stderr=subprocess.STDOUT,
+                text=True
+            )
+        
+        # Wait a moment to see if the process starts successfully
+        time.sleep(2)
+        
+        # Check if the process is still running
+        if process.poll() is None:
+            print("Webhook server started successfully")
+            print(f"Server is running with PID {process.pid}")
+            print("Press Ctrl+C to stop the server")
+            
+            # Keep the script running until interrupted
+            try:
+                while True:
+                    time.sleep(1)
+            except KeyboardInterrupt:
+                print("\nStopping webhook server...")
+                process.terminate()
+                process.wait()
+                print("Webhook server stopped")
+        else:
+            print("Failed to start webhook server")
+            print(f"Exit code: {process.returncode}")
+            print("Check webhook.log for details")
+    
+    except Exception as e:
+        print(f"Error starting webhook server: {str(e)}")
+
+def main():
+    """Main function to update hooks and start the webhook server."""
+    # Create endpoints directory if it doesn't exist
+    if not os.path.exists(ENDPOINTS_DIR):
+        os.makedirs(ENDPOINTS_DIR)
+        print(f"Created {ENDPOINTS_DIR} directory")
+    
+    # Get all endpoint files
+    endpoint_files = get_endpoint_files()
+    if not endpoint_files:
+        print(f"No endpoint files found in {ENDPOINTS_DIR} directory")
+        return
+    
+    print(f"Found {len(endpoint_files)} endpoint files:")
+    for file in endpoint_files:
+        print(f"  - {os.path.basename(file)}")
+    
+    # Generate and write hooks configuration
+    hooks = generate_hook_config(endpoint_files)
+    write_hooks_file(hooks)
+    
+    # Start the webhook server
+    start_webhook_server()
+
+if __name__ == "__main__":
+    main() 
