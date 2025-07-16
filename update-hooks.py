@@ -7,13 +7,35 @@ import time
 import signal
 import psutil
 
-# Configuration
-ENDPOINTS_DIR = "endpoints"
-HOOKS_FILE = "hooks.yaml"
-WEBHOOK_EXECUTABLE = "C:\\Users\\melti\\go\\bin\\webhook"
-PYTHON_EXECUTABLE = "C:\\Program Files\\Python313\\python.exe"
-LAUNCHER_SCRIPT = "C:\\Users\\melti\\Desktop\\git\\api-test\\run-endpoint.py"
-WORKING_DIR = "C:\\Users\\melti\\Desktop\\git\\api-test"
+# Fixed paths
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ENDPOINTS_DIR = os.path.join(SCRIPT_DIR, "endpoints")
+HOOKS_FILE = os.path.join(SCRIPT_DIR, "hooks.yaml")
+LAUNCHER_SCRIPT = os.path.join(SCRIPT_DIR, "run-endpoint.py")
+WORKING_DIR = SCRIPT_DIR
+
+# Configuration file
+CONFIG_FILE = os.path.join(SCRIPT_DIR, "config.yaml")
+
+def load_config():
+    """Load configuration from YAML file."""
+    try:
+        with open(CONFIG_FILE, 'r') as f:
+            config = yaml.safe_load(f)
+        print(f"Loaded configuration from {CONFIG_FILE}")
+        return config
+    except Exception as e:
+        print(f"Error loading configuration: {str(e)}")
+        print("Using default configuration")
+        return {
+            "webhook_executable": "webhook",
+            "python_executable": "python",
+            "port": 9000,
+            "verbose": True
+        }
+
+# Load configuration
+CONFIG = load_config()
 
 def get_endpoint_files():
     """Get all files in the endpoints directory."""
@@ -33,7 +55,7 @@ def generate_hook_config(endpoint_files):
         # Create the hook configuration
         hook = {
             "id": hook_id,
-            "execute-command": PYTHON_EXECUTABLE,
+            "execute-command": CONFIG["python_executable"],
             "pass-arguments-to-command": [
                 {
                     "source": "string",
@@ -83,8 +105,15 @@ def start_webhook_server():
         kill_webhook_processes()
         time.sleep(1)  # Give processes time to terminate
         
-        # Start the webhook server
-        cmd = [WEBHOOK_EXECUTABLE, "-hooks", HOOKS_FILE, "-verbose"]
+        # Build the command
+        cmd = [CONFIG["webhook_executable"], "-hooks", HOOKS_FILE]
+        
+        # Add optional parameters
+        if CONFIG.get("port"):
+            cmd.extend(["-port", str(CONFIG["port"])])
+        if CONFIG.get("verbose", False):
+            cmd.append("-verbose")
+        
         print(f"Starting webhook server with command: {' '.join(cmd)}")
         
         # Use Popen to start the process and redirect output
@@ -103,6 +132,7 @@ def start_webhook_server():
         if process.poll() is None:
             print("Webhook server started successfully")
             print(f"Server is running with PID {process.pid}")
+            print(f"Server is listening on port {CONFIG.get('port', 9000)}")
             print("Press Ctrl+C to stop the server")
             
             # Keep the script running until interrupted

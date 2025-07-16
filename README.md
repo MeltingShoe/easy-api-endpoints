@@ -12,6 +12,7 @@ Key features:
 - **Flexible Script Support**: Supports Python, shell scripts, and other executable formats
 - **Raw Request Handling**: Passes the raw HTTP request body to your scripts via stdin
 - **Simple Deployment**: Single command to deploy all endpoints
+- **Minimal Configuration**: Only executables and server settings need to be configured
 
 ## Requirements
 
@@ -46,17 +47,27 @@ Key features:
 
 ## Configuration
 
-Edit the `update-hooks.py` file to update these configuration variables:
+The framework uses a `config.yaml` file for minimal configuration settings. Here's an example:
 
-```python
-# Configuration
-ENDPOINTS_DIR = "endpoints"
-HOOKS_FILE = "hooks.yaml"
-WEBHOOK_EXECUTABLE = "C:\\Users\\melti\\go\\bin\\webhook"  # Update this path
-PYTHON_EXECUTABLE = "C:\\Program Files\\Python313\\python.exe"  # Update this path
-ECHO_SCRIPT = "C:\\Users\\melti\\Desktop\\git\\api-test\\run-endpoint.py"  # Update this path
-WORKING_DIR = "C:\\Users\\melti\\Desktop\\git\\api-test"  # Update this path
+```yaml
+# Webhook API Framework Configuration
+
+# Executables
+webhook_executable: "C:\\Users\\melti\\go\\bin\\webhook"
+python_executable: "C:\\Program Files\\Python313\\python.exe"
+
+# Server settings
+port: 9000
+verbose: true
 ```
+
+Edit this file to match your environment. If the file doesn't exist, the script will use default values.
+
+All other paths are determined automatically relative to the repository:
+- `endpoints_dir`: Always `./endpoints/` relative to the script
+- `hooks_file`: Always `./hooks.yaml` relative to the script
+- `launcher_script`: Always `./run-endpoint.py` relative to the script
+- `working_dir`: Always the directory containing the script
 
 ## Creating Endpoints
 
@@ -97,10 +108,11 @@ python update-hooks.py
 ```
 
 This will:
-1. Scan the `endpoints` directory for scripts
-2. Generate a `hooks.yaml` configuration file
-3. Kill any existing webhook processes
-4. Start the webhook server with the generated configuration
+1. Load configuration from `config.yaml` (or use defaults if not found)
+2. Scan the `endpoints` directory for scripts
+3. Generate a `hooks.yaml` configuration file
+4. Kill any existing webhook processes
+5. Start the webhook server with the generated configuration
 
 The server will run until interrupted (Ctrl+C).
 
