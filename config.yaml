@@ -1,7 +1,0 @@
-# Executables
-webhook_executable: "<PATH_TO_WEBHOOK>"
-python_executable: "<PATH_TO_PYTHON>"
-
-# Server settings
-port: 9000
-verbose: true 
