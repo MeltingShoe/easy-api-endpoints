@@ -13,4 +13,4 @@ except (json.JSONDecodeError, TypeError):
     name = input_data.strip() if input_data.strip() else 'World'
 
 # Print the greeting
-print(f"Hello, {name}! Welcome to the API.") 
+print(f"Hello, {name}! Welcome to the API :)") 
