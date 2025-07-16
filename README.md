@@ -1,4 +1,4 @@
-# Webhook API Framework
+# Easy API Endpoints
 
 A lightweight, flexible framework for quickly deploying API endpoints using the `webhook` tool.
 
@@ -26,8 +26,8 @@ Key features:
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/webhook-api-framework.git
-   cd webhook-api-framework
+   git clone https://github.com/yourusername/easy-api-endpoints.git
+   cd easy-api-endpoints
    ```
 
 2. Install the required Python packages:
@@ -150,13 +150,6 @@ The system automatically detects the script type based on file extension:
 - `.sh`: Executed with bash
 - Other: Executed directly (must be executable)
 
-### Custom Request Processing
-
-For more advanced request handling, you can modify the endpoint scripts to:
-- Parse different content types
-- Handle query parameters
-- Process headers
-- Return different status codes
 
 ## License
 
