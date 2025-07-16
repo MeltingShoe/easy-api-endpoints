@@ -3,3 +3,4 @@ hooks.yaml
 config.yaml
 *.env
 __pycache__/
+gemini.sh
