@@ -1,7 +1,7 @@
 import sys
 import os
 import subprocess
-from run_server import CONFIG
+from start_server import CONFIG
 
 # Check if script name is provided as argument
 if len(sys.argv) < 2:

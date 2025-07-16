@@ -11,7 +11,7 @@ import psutil
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ENDPOINTS_DIR = os.path.join(SCRIPT_DIR, "endpoints")
 HOOKS_FILE = os.path.join(SCRIPT_DIR, "hooks.yaml")
-LAUNCHER_SCRIPT = os.path.join(SCRIPT_DIR, "run_endpoint.py")
+LAUNCHER_SCRIPT = os.path.join(SCRIPT_DIR, "call_endpoint.py")
 WORKING_DIR = SCRIPT_DIR
 
 # Configuration file

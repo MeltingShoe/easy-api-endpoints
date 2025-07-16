@@ -1,1 +1,1 @@
-python run_server.py &
+python start_server.py &

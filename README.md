@@ -105,7 +105,7 @@ print(f"Hello, {name}! Welcome to the API.")
 Start the API server with:
 
 ```
-python update-hooks.py
+python start_server.py
 ```
 
 This will:
@@ -139,7 +139,7 @@ curl -X POST http://localhost:9000/hooks/hello \
 
 ## How It Works
 
-1. The `update-hooks.py` script scans the `endpoints` directory for endpoint scripts
+1. The `start_server.py` script scans the `endpoints` directory for endpoint scripts
 2. For each script, it generates a hook configuration in `hooks.yaml`
 3. When a request is received, webhook:
    - Saves the request body to a temporary file
