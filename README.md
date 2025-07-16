@@ -13,6 +13,7 @@ Key features:
 - **Raw Request Handling**: Passes the raw HTTP request body to your scripts via stdin
 - **Simple Deployment**: Single command to deploy all endpoints
 - **Minimal Configuration**: Only executables and server settings need to be configured
+- **Polyglot Scripts**: `stop.bat` runs as a batch file on Windows, but runs as a bash script on MacOS/Linux
 
 ## Requirements
 
@@ -115,6 +116,12 @@ This will:
 5. Start the webhook server with the generated configuration
 
 The server will run until interrupted (Ctrl+C).
+
+### Running in the background
+
+Start the API server by running `start.sh` <sub>Works on Windows with Git Bash set as default for opening `.sh`</sub>
+
+To stop the server run `stop.bat` <sub>Even though it's `.bat` this file runs fine on bash/zsh <sub>it's magic</sub></sub>
 
 ## Using the API
 
