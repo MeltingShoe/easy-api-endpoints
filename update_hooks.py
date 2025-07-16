@@ -11,7 +11,7 @@ import psutil
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ENDPOINTS_DIR = os.path.join(SCRIPT_DIR, "endpoints")
 HOOKS_FILE = os.path.join(SCRIPT_DIR, "hooks.yaml")
-LAUNCHER_SCRIPT = os.path.join(SCRIPT_DIR, "run-endpoint.py")
+LAUNCHER_SCRIPT = os.path.join(SCRIPT_DIR, "run_endpoint.py")
 WORKING_DIR = SCRIPT_DIR
 
 # Configuration file
@@ -22,7 +22,7 @@ def load_config():
     try:
         with open(CONFIG_FILE, 'r') as f:
             config = yaml.safe_load(f)
-        print(f"Loaded configuration from {CONFIG_FILE}")
+        # print(f"Loaded configuration from {CONFIG_FILE}")
         return config
     except Exception as e:
         print(f"Error loading configuration: {str(e)}")
@@ -30,6 +30,7 @@ def load_config():
         return {
             "webhook_executable": "webhook",
             "python_executable": "python",
+            "bash_executable": "bash",
             "port": 9000,
             "verbose": True
         }

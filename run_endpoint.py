@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+from update_hooks import CONFIG
 
 # Check if script name is provided as argument
 if len(sys.argv) < 2:
@@ -31,7 +32,7 @@ except Exception as e:
 if script_name.endswith('.py'):
     cmd = [sys.executable, script_path]
 elif script_name.endswith('.sh'):
-    cmd = ['bash', script_path]
+    cmd = [CONFIG['bash_executable'], script_path]
 else:
     cmd = [script_path]
 

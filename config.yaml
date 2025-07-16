@@ -1,6 +1,7 @@
 # Executables
-webhook_executable: "<PATH_TO_WEBHOOK>"
-python_executable: "<PATH_TO_PYTHON>"
+webhook_executable: "C:\\Users\\melti\\go\\bin\\webhook.exe"
+python_executable: "C:\\Program Files\\Python313\\python.exe"
+bash_executable: "C:\\Program Files\\Git\\bin\\bash.exe"
 
 # Server settings
 port: 9000

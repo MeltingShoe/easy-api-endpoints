@@ -1,0 +1,1 @@
+ls -1 endpoints | sed -e 's/\..*$//'
