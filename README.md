@@ -51,24 +51,14 @@ Key features:
 The framework uses a `config.yaml` file for minimal configuration settings. Here's an example:
 
 ```yaml
-# Webhook API Framework Configuration
-
 # Executables
 webhook_executable: "C:\\Users\\melti\\go\\bin\\webhook"
 python_executable: "C:\\Program Files\\Python313\\python.exe"
+bash_executable: "C:\\Program Files\\Git\\bin\\bash.exe"
 
-# Server settings
 port: 9000
 verbose: true
 ```
-
-Edit this file to match your environment. If the file doesn't exist, the script will use default values.
-
-All other paths are determined automatically relative to the repository:
-- `endpoints_dir`: Always `./endpoints/` relative to the script
-- `hooks_file`: Always `./hooks.yaml` relative to the script
-- `launcher_script`: Always `./run-endpoint.py` relative to the script
-- `working_dir`: Always the directory containing the script
 
 ## Creating Endpoints
 
