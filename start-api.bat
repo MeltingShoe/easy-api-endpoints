@@ -1,0 +1,1 @@
+webhook -hooks hooks.yaml -verbose > webhook.log 2>&1

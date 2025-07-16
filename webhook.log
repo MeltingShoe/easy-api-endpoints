@@ -1,0 +1,35 @@
+[webhook] 2025/07/16 04:18:34 version 2.8.2 starting
+[webhook] 2025/07/16 04:18:34 attempting to load hooks from hooks.yaml
+[webhook] 2025/07/16 04:18:34 found 1 hook(s) in file
+[webhook] 2025/07/16 04:18:34 	loaded: run-my-echo
+[webhook] 2025/07/16 04:18:34 serving hooks on http://0.0.0.0:9000/hooks/{id}
+[webhook] 2025/07/16 04:18:38 [a27c51] incoming HTTP POST request from [::1]:52953
+[webhook] 2025/07/16 04:18:38 [a27c51] run-my-echo got matched
+[webhook] 2025/07/16 04:18:38 [a27c51] run-my-echo hook triggered successfully
+[webhook] 2025/07/16 04:18:38 [a27c51] writing env WEBHOOK_PAYLOAD file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3344162352
+[webhook] 2025/07/16 04:18:38 [a27c51] executing C:\Program Files\Python313\python.exe (C:\Program Files\Python313\python.exe) with arguments ["C:\\Program Files\\Python313\\python.exe" "C:\\Users\\melti\\Desktop\\git\\api-test\\echo.py"] and environment [WEBHOOK_PAYLOAD=C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3344162352] using C:\Users\melti\Desktop\git\api-test as cwd
+[webhook] 2025/07/16 04:18:38 [a27c51] command output: Python script received: hello world
+
+[webhook] 2025/07/16 04:18:38 [a27c51] removing file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3344162352
+[webhook] 2025/07/16 04:18:38 [a27c51] finished handling run-my-echo
+[webhook] 2025/07/16 04:18:38 [a27c51] 200 | 37 B | 21.9944ms | localhost:9000 | POST /hooks/run-my-echo
+[webhook] 2025/07/16 04:18:47 [cf3541] incoming HTTP POST request from [::1]:52974
+[webhook] 2025/07/16 04:18:47 [cf3541] run-my-echo got matched
+[webhook] 2025/07/16 04:18:47 [cf3541] run-my-echo hook triggered successfully
+[webhook] 2025/07/16 04:18:47 [cf3541] writing env WEBHOOK_PAYLOAD file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3291797537
+[webhook] 2025/07/16 04:18:47 [cf3541] executing C:\Program Files\Python313\python.exe (C:\Program Files\Python313\python.exe) with arguments ["C:\\Program Files\\Python313\\python.exe" "C:\\Users\\melti\\Desktop\\git\\api-test\\echo.py"] and environment [WEBHOOK_PAYLOAD=C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3291797537] using C:\Users\melti\Desktop\git\api-test as cwd
+[webhook] 2025/07/16 04:18:47 [cf3541] command output: Python script received: {"message": "hello world"}
+
+[webhook] 2025/07/16 04:18:47 [cf3541] removing file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3291797537
+[webhook] 2025/07/16 04:18:47 [cf3541] finished handling run-my-echo
+[webhook] 2025/07/16 04:18:47 [cf3541] 200 | 52 B | 20.0134ms | localhost:9000 | POST /hooks/run-my-echo
+[webhook] 2025/07/16 04:19:20 [d53a4a] incoming HTTP POST request from [::1]:53007
+[webhook] 2025/07/16 04:19:20 [d53a4a] run-my-echo got matched
+[webhook] 2025/07/16 04:19:20 [d53a4a] run-my-echo hook triggered successfully
+[webhook] 2025/07/16 04:19:20 [d53a4a] writing env WEBHOOK_PAYLOAD file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3815651058
+[webhook] 2025/07/16 04:19:20 [d53a4a] executing C:\Program Files\Python313\python.exe (C:\Program Files\Python313\python.exe) with arguments ["C:\\Program Files\\Python313\\python.exe" "C:\\Users\\melti\\Desktop\\git\\api-test\\echo.py"] and environment [WEBHOOK_PAYLOAD=C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3815651058] using C:\Users\melti\Desktop\git\api-test as cwd
+[webhook] 2025/07/16 04:19:20 [d53a4a] command output: Python script received: hello world
+
+[webhook] 2025/07/16 04:19:20 [d53a4a] removing file C:\Users\melti\Desktop\git\api-test\WEBHOOK_PAYLOAD3815651058
+[webhook] 2025/07/16 04:19:20 [d53a4a] finished handling run-my-echo
+[webhook] 2025/07/16 04:19:20 [d53a4a] 200 | 37 B | 19.256ms | localhost:9000 | POST /hooks/run-my-echo
