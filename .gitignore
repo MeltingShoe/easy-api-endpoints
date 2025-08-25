@@ -4,3 +4,4 @@ webhook.log
 __pycache__/
 gemini.sh
 endpoints/
+.claude/
