@@ -186,7 +186,6 @@ def main():
         relative_path = os.path.relpath(file, ENDPOINTS_DIR)
         hook_id = os.path.splitext(relative_path)[0].replace('\\', '/')
         print(f"  - {relative_path} -> {url_prefix}/{hook_id}")
-    
     # Generate and write hooks configuration
     hooks = generate_hook_config(endpoint_files)
     write_hooks_file(hooks)
