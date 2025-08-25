@@ -1,0 +1,9 @@
+{
+  "webhook_path": "webhook",
+  "python_path": "python",
+  "bash_path": "bash",
+  "endpoints_path": "C:/Users/melti/Desktop/git/easy-api-endpoints/endpoints",
+  "port": 9000,
+  "auto_start": true,
+  "auto_minimize": false
+}
