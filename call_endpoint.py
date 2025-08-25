@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
     print("Error: No script specified")
     sys.exit(1)
 
-# Get the script name from the argument
+# Get the script name from the argument (now includes relative path)
 script_name = sys.argv[1]
 script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "endpoints", script_name)
 
@@ -33,6 +33,10 @@ if script_name.endswith('.py'):
     cmd = [sys.executable, script_path]
 elif script_name.endswith('.sh'):
     cmd = [CONFIG['bash_executable'], script_path]
+elif script_name.endswith('.bat'):
+    cmd = ['cmd.exe', '/c', script_path]
+elif script_name.endswith('.ps1'):
+    cmd = ['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', script_path]
 else:
     cmd = [script_path]
 

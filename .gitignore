@@ -1,6 +1,6 @@
 webhook.log
-hooks.yaml
-config.yaml
+*.yaml
 *.env
 __pycache__/
 gemini.sh
+endpoints/
