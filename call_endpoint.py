@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
     print("Error: No script specified")
     sys.exit(1)
 
-# Get the script name from the argument
+# Get the script name from the argument (now includes relative path)
 script_name = sys.argv[1]
 script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "endpoints", script_name)
 

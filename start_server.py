@@ -39,19 +39,26 @@ def load_config():
 CONFIG = load_config()
 
 def get_endpoint_files():
-    """Get all files in the endpoints directory."""
-    return glob.glob(os.path.join(ENDPOINTS_DIR, "*.*"))
+    """Get all files in the endpoints directory recursively."""
+    files = []
+    extensions = ['*.py', '*.sh', '*.bat', '*.ps1']
+    
+    for ext in extensions:
+        pattern = os.path.join(ENDPOINTS_DIR, '**', ext)
+        files.extend(glob.glob(pattern, recursive=True))
+    
+    return files
 
 def generate_hook_config(endpoint_files):
     """Generate the hooks.yaml configuration based on the endpoint files."""
     hooks = []
     
     for endpoint_file in endpoint_files:
-        # Get just the filename (without path)
-        filename = os.path.basename(endpoint_file)
+        # Get the relative path from the endpoints directory (preserves nesting!)
+        relative_path = os.path.relpath(endpoint_file, ENDPOINTS_DIR)
         
-        # Get the filename without extension for the hook ID
-        hook_id = os.path.splitext(filename)[0]
+        # Get the path without extension for the hook ID
+        hook_id = os.path.splitext(relative_path)[0].replace('\\', '/')
         
         # Create the hook configuration
         hook = {
@@ -64,7 +71,7 @@ def generate_hook_config(endpoint_files):
                 },
                 {
                     "source": "string",
-                    "name": filename
+                    "name": relative_path  # Pass full path, not just filename
                 }
             ],
             "pass-file-to-command": [
@@ -114,6 +121,10 @@ def start_webhook_server():
             cmd.extend(["-port", str(CONFIG["port"])])
         if CONFIG.get("verbose", False):
             cmd.append("-verbose")
+        if CONFIG.get("urlprefix") is not None:
+            cmd.extend(["-urlprefix", CONFIG.get("urlprefix")])
+        if CONFIG.get("urlprefix") is not None:
+            cmd.extend(["-urlprefix", CONFIG.get("urlprefix")])
         
         print(f"Starting webhook server with command: {' '.join(cmd)}")
         
@@ -164,11 +175,17 @@ def main():
     endpoint_files = get_endpoint_files()
     if not endpoint_files:
         print(f"No endpoint files found in {ENDPOINTS_DIR} directory")
+        print("Add some .py, .sh, .bat, or .ps1 files to get started!")
         return
     
     print(f"Found {len(endpoint_files)} endpoint files:")
+    prefix = CONFIG.get("urlprefix", "hooks")
+    url_prefix = f"/{prefix}" if prefix else ""
+    
     for file in endpoint_files:
-        print(f"  - {os.path.basename(file)}")
+        relative_path = os.path.relpath(file, ENDPOINTS_DIR)
+        hook_id = os.path.splitext(relative_path)[0].replace('\\', '/')
+        print(f"  - {relative_path} → {url_prefix}/{hook_id}")
     
     # Generate and write hooks configuration
     hooks = generate_hook_config(endpoint_files)
@@ -178,4 +195,4 @@ def main():
     start_webhook_server()
 
 if __name__ == "__main__":
-    main() 
+    main()
