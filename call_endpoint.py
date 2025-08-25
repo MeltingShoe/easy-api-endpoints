@@ -33,6 +33,10 @@ if script_name.endswith('.py'):
     cmd = [sys.executable, script_path]
 elif script_name.endswith('.sh'):
     cmd = [CONFIG['bash_executable'], script_path]
+elif script_name.endswith('.bat'):
+    cmd = ['cmd.exe', '/c', script_path]
+elif script_name.endswith('.ps1'):
+    cmd = ['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', script_path]
 else:
     cmd = [script_path]
 
